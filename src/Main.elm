@@ -144,27 +144,77 @@ drawPoint newPoint { previousMidpoint, lastPoint } ({ pending } as model) =
     let
         newMidPoint =
             controlPoint lastPoint newPoint
-    in
-    { model
-        | drawingPointer = Just { previousMidpoint = newMidPoint, lastPoint = newPoint }
-        , pending =
+
+        mm =
+            { model | size = model.size + 20 }
+
+        newPending =
+            Array.push
+                (drawLine mm
+                    [ path previousMidpoint [ quadraticCurveTo lastPoint newMidPoint ] ]
+                )
+                pending
+
+        m =
+            { model | size = model.size + 10, color = Color.white }
+
+        newNewPending =
+            Array.push
+                (drawLine m
+                    [ path previousMidpoint [ quadraticCurveTo lastPoint newMidPoint ] ]
+                )
+                newPending
+
+        newNewNewPending =
             Array.push
                 (drawLine model
                     [ path previousMidpoint [ quadraticCurveTo lastPoint newMidPoint ] ]
                 )
-                pending
+                newNewPending
+    in
+    { model
+        | drawingPointer = Just { previousMidpoint = newMidPoint, lastPoint = newPoint }
+        , pending =
+            newNewNewPending
     }
 
 
 finalPoint point { previousMidpoint, lastPoint } ({ pending } as model) =
-    { model
-        | drawingPointer = Nothing
-        , pending =
+    let
+        mm =
+            { model | size = model.size + 20 }
+
+        newPending =
+            Array.push
+                (drawLine mm
+                    [ path previousMidpoint [ quadraticCurveTo lastPoint point ] ]
+                )
+                pending
+
+        m =
+            { model | size = model.size + 10, color = Color.white }
+
+        newNewPending =
+            Array.push
+                (drawLine m
+                    [ path previousMidpoint [ quadraticCurveTo lastPoint point ] ]
+                )
+                newPending
+
+        newNewNewPending =
             Array.push
                 (drawLine model
                     [ path previousMidpoint [ quadraticCurveTo lastPoint point ] ]
                 )
-                pending
+                newNewPending
+
+        a =
+            Debug.log "m:" model
+    in
+    { model
+        | drawingPointer = Nothing
+        , pending =
+            newNewNewPending
     }
 
 

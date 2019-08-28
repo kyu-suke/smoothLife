@@ -5611,6 +5611,7 @@ var author$project$Main$drawLine = F2(
 				]),
 			line);
 	});
+var avh4$elm_color$Color$white = A4(avh4$elm_color$Color$RgbaSpace, 255 / 255, 255 / 255, 255 / 255, 1.0);
 var elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
 var elm$core$Array$bitMask = 4294967295 >>> (32 - elm$core$Array$shiftStep);
 var elm$core$Basics$ge = _Utils_ge;
@@ -5718,55 +5719,132 @@ var author$project$Main$drawPoint = F3(
 		var lastPoint = _n0.lastPoint;
 		var pending = model.pending;
 		var newMidPoint = A2(author$project$Main$controlPoint, lastPoint, newPoint);
+		var mm = _Utils_update(
+			model,
+			{size: model.size + 20});
+		var newPending = A2(
+			elm$core$Array$push,
+			A2(
+				author$project$Main$drawLine,
+				mm,
+				_List_fromArray(
+					[
+						A2(
+						joakin$elm_canvas$Canvas$path,
+						previousMidpoint,
+						_List_fromArray(
+							[
+								A2(joakin$elm_canvas$Canvas$quadraticCurveTo, lastPoint, newMidPoint)
+							]))
+					])),
+			pending);
+		var m = _Utils_update(
+			model,
+			{color: avh4$elm_color$Color$white, size: model.size + 10});
+		var newNewPending = A2(
+			elm$core$Array$push,
+			A2(
+				author$project$Main$drawLine,
+				m,
+				_List_fromArray(
+					[
+						A2(
+						joakin$elm_canvas$Canvas$path,
+						previousMidpoint,
+						_List_fromArray(
+							[
+								A2(joakin$elm_canvas$Canvas$quadraticCurveTo, lastPoint, newMidPoint)
+							]))
+					])),
+			newPending);
+		var newNewNewPending = A2(
+			elm$core$Array$push,
+			A2(
+				author$project$Main$drawLine,
+				model,
+				_List_fromArray(
+					[
+						A2(
+						joakin$elm_canvas$Canvas$path,
+						previousMidpoint,
+						_List_fromArray(
+							[
+								A2(joakin$elm_canvas$Canvas$quadraticCurveTo, lastPoint, newMidPoint)
+							]))
+					])),
+			newNewPending);
 		return _Utils_update(
 			model,
 			{
 				drawingPointer: elm$core$Maybe$Just(
 					{lastPoint: newPoint, previousMidpoint: newMidPoint}),
-				pending: A2(
-					elm$core$Array$push,
-					A2(
-						author$project$Main$drawLine,
-						model,
-						_List_fromArray(
-							[
-								A2(
-								joakin$elm_canvas$Canvas$path,
-								previousMidpoint,
-								_List_fromArray(
-									[
-										A2(joakin$elm_canvas$Canvas$quadraticCurveTo, lastPoint, newMidPoint)
-									]))
-							])),
-					pending)
+				pending: newNewNewPending
 			});
 	});
+var elm$core$Debug$log = _Debug_log;
 var author$project$Main$finalPoint = F3(
 	function (point, _n0, model) {
 		var previousMidpoint = _n0.previousMidpoint;
 		var lastPoint = _n0.lastPoint;
 		var pending = model.pending;
-		return _Utils_update(
+		var mm = _Utils_update(
 			model,
-			{
-				drawingPointer: elm$core$Maybe$Nothing,
-				pending: A2(
-					elm$core$Array$push,
-					A2(
-						author$project$Main$drawLine,
-						model,
+			{size: model.size + 20});
+		var newPending = A2(
+			elm$core$Array$push,
+			A2(
+				author$project$Main$drawLine,
+				mm,
+				_List_fromArray(
+					[
+						A2(
+						joakin$elm_canvas$Canvas$path,
+						previousMidpoint,
 						_List_fromArray(
 							[
-								A2(
-								joakin$elm_canvas$Canvas$path,
-								previousMidpoint,
-								_List_fromArray(
-									[
-										A2(joakin$elm_canvas$Canvas$quadraticCurveTo, lastPoint, point)
-									]))
-							])),
-					pending)
-			});
+								A2(joakin$elm_canvas$Canvas$quadraticCurveTo, lastPoint, point)
+							]))
+					])),
+			pending);
+		var m = _Utils_update(
+			model,
+			{color: avh4$elm_color$Color$white, size: model.size + 10});
+		var newNewPending = A2(
+			elm$core$Array$push,
+			A2(
+				author$project$Main$drawLine,
+				m,
+				_List_fromArray(
+					[
+						A2(
+						joakin$elm_canvas$Canvas$path,
+						previousMidpoint,
+						_List_fromArray(
+							[
+								A2(joakin$elm_canvas$Canvas$quadraticCurveTo, lastPoint, point)
+							]))
+					])),
+			newPending);
+		var newNewNewPending = A2(
+			elm$core$Array$push,
+			A2(
+				author$project$Main$drawLine,
+				model,
+				_List_fromArray(
+					[
+						A2(
+						joakin$elm_canvas$Canvas$path,
+						previousMidpoint,
+						_List_fromArray(
+							[
+								A2(joakin$elm_canvas$Canvas$quadraticCurveTo, lastPoint, point)
+							]))
+					])),
+			newNewPending);
+		var a = A2(elm$core$Debug$log, 'm:', model);
+		return _Utils_update(
+			model,
+			{drawingPointer: elm$core$Maybe$Nothing, pending: newNewNewPending});
 	});
 var author$project$Main$flushPendingToDraw = function (model) {
 	var pending = model.pending;
@@ -5944,7 +6022,6 @@ var avh4$elm_color$Color$lightYellow = A4(avh4$elm_color$Color$RgbaSpace, 255 / 
 var avh4$elm_color$Color$orange = A4(avh4$elm_color$Color$RgbaSpace, 245 / 255, 121 / 255, 0 / 255, 1.0);
 var avh4$elm_color$Color$purple = A4(avh4$elm_color$Color$RgbaSpace, 117 / 255, 80 / 255, 123 / 255, 1.0);
 var avh4$elm_color$Color$red = A4(avh4$elm_color$Color$RgbaSpace, 204 / 255, 0 / 255, 0 / 255, 1.0);
-var avh4$elm_color$Color$white = A4(avh4$elm_color$Color$RgbaSpace, 255 / 255, 255 / 255, 255 / 255, 1.0);
 var avh4$elm_color$Color$yellow = A4(avh4$elm_color$Color$RgbaSpace, 237 / 255, 212 / 255, 0 / 255, 1.0);
 var elm$core$Basics$composeR = F3(
 	function (f, g, x) {
